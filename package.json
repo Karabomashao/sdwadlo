@@ -4,7 +4,6 @@
   "description": "This is an e-commerce website for advertising local clothing brands",
   "main": "index.js",
   "scripts": {
-
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
@@ -23,6 +22,7 @@
   },
   "homepage": "https://github.com/Karabomashao/sdwadlo#readme",
   "dependencies": {
+    "dotenv": "^17.4.2",
     "express": "^5.2.1"
   },
   "devDependencies": {

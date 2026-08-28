@@ -1,19 +1,15 @@
-import express, {type Request, type Response} from "express";
+import app from "./app.js";
+import { env } from "./config/environment.js"
+import adminRouter from "./modules/auth/auth.routes.js"
+import productRouter from "./modules/products/products.routes.js"
 
-const app = express();
-const PORT = 3000;
+
+app.use("/api/admin", adminRouter);
+app.use("/api/product", productRouter);
 
 
-app.get("/", (req, res) =>{
-    res.send("This is the home page or whatever it is that I want to do")
-})
-
-app.get("/admin", (req, res) => {
-    res.send("You have reached the Admin portal")
-})
-
-app.listen(PORT, () => {
-    console.log(`Server is runnin on http://localhost:${PORT}`);
+app.listen(env.PORT, () => {
+    console.log(`Server is runnin on http://localhost:${env.PORT}`);
 });
 
 
