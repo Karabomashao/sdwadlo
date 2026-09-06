@@ -16,7 +16,7 @@ async function registerAdmin(req:Request, res:Response){
 
 async function loginAdmin(req:Request, res:Response){
     const admin_cred = req.body;
-    console.log("username and password");
+    console.log(admin_cred);
     res.send("You have successfully logged in");
 }
 

@@ -6,7 +6,7 @@ function getProducts(req:Request, res:Response){
 
 function getProductById(req:Request, res:Response){
     res.send("You are viewing a product retrieved by ID");
-}s\
+}
 
 function addProduct(req:Request, res:Response){
     const productDetails = req.body;
