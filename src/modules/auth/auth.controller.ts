@@ -8,13 +8,13 @@ function getAdminById(req:Request, res:Response){
     res.send("Testting getAdminById controller - return admin by id");
 }
 
-function registerAdmin(req:Request, res:Response){
+async function registerAdmin(req:Request, res:Response){
     const admin_details = req.body;
     console.log(admin_details);
     res.send("Admin has successfully created a profile");
 }
 
-function loginAdmin(req:Request, res:Response){
+async function loginAdmin(req:Request, res:Response){
     const admin_cred = req.body;
     console.log("username and password");
     res.send("You have successfully logged in");
