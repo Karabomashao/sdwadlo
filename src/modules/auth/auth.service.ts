@@ -1,14 +1,30 @@
-import { getAllAdmins, createAdminRow, addColumn } from "./auth.repository.ts";
+import { getAllAdmins, createAdminRow, getAdminUserByUsername } from "./auth.repository.ts";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 
-export async function validateAdmin(
-    username: string, 
-    password: string
-    ) {
-        const test = "Testing";
+export async function validateLogin(username: string, password: string){
+    
+    try{
+        const existingAdminUser = await getAdminUserByUsername(username)
+        if (existingAdminUser.length != 0){
+            const passwordMatch = await bcrypt.compare(password, existingAdminUser[0].password);
+            if (passwordMatch){
+                return existingAdminUser[0]
+            } else{
+                return null;
+            }
+        }else{
+            console.log("Admin user was not found")
+            return null;
+        }
+
+    } catch(error){
+        console.error(error);
+        throw new Error("Failed to fetch!");
+    }
+
 }
-
 
 export async function createAdmin(
     username: string,

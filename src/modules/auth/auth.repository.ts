@@ -3,16 +3,35 @@ import sql from "../../config/database.ts";
 export async function getAllAdmins(){
     
     const admins = sql`
-        SELECT * FROM "Admin"
+        SELECT * FROM admin_users
     `
     return admins;
+}
+
+export async function getAdminUserByUsername(username: string){
+
+
+    try{
+        const adminUser = await sql`
+            SELECT * FROM admin_users
+            WHERE "username" = ${username}
+        `
+        console.log(adminUser);
+        return adminUser;
+
+    } catch(error){
+        console.error(error);
+        throw error;
+    }
+
+
 }
 
 export async function createAdminRow(username: string, password: string, firstname: string, lastname: string){
 
     try{
         const adminUser = await sql`
-            INSERT INTO "Admin" (username, password, first_name, last_name)
+            INSERT INTO admin_users (username, password, first_name, last_name)
             VALUES (${username}, ${password}, ${firstname}, ${lastname})
             RETURNING *
         `

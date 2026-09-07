@@ -1,5 +1,5 @@
 import {type Request, type Response} from "express";
-import { createAdmin } from "../auth/auth.service.ts";
+import { createAdmin, validateLogin } from "../auth/auth.service.ts";
 
 async function registerAdmin(req:Request, res:Response){
 
@@ -23,8 +23,26 @@ async function registerAdmin(req:Request, res:Response){
 }
 
 async function loginAdmin(req:Request, res:Response){
-    const admin_cred = req.body;
-    res.send("You have successfully logged in");
+    const {username, password} = req.body;
+
+    try{
+        const adminAuthenticated = await validateLogin(username, password);
+        if (adminAuthenticated){
+            res.status(200).json({
+            message: "You have successfully logged in.",
+            data: adminAuthenticated
+        });
+        }else{
+            res.status(403).json({
+                message: "Invalid credentials"
+            })
+        }
+    }catch(error){
+        console.error(error.message);
+        res.status(403).json({
+            message: error.message
+        });
+    }
 }
 
 
