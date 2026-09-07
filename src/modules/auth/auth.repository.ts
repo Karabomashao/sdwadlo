@@ -1,6 +1,5 @@
 import sql from "../../config/database.ts";
 
-
 export async function getAllAdmins(){
     
     const admins = sql`
@@ -9,26 +8,25 @@ export async function getAllAdmins(){
     return admins;
 }
 
-export async function addColumn(columnName: string){
-    const newColumn = await sql`
-        ALTER TABLE IF EXISTS "Admin" 
-        ADD ${sql(columnName)} VARCHAR(255) 
-    `;
-    console.log("Added a new column:", columnName);
-}
-
-export async function createAdminRow(username: string, password: string){
+export async function createAdminRow(username: string, password: string, firstname: string, lastname: string){
 
     try{
-        const newAdmin = await sql`
-            INSERT INTO "Admin" (username, password)
-            VALUES (${username}, ${password})
+        const adminUser = await sql`
+            INSERT INTO "Admin" (username, password, first_name, last_name)
+            VALUES (${username}, ${password}, ${firstname}, ${lastname})
             RETURNING *
         `
-        console.log(newAdmin);
+
+        const newAdminUser = adminUser.map(
+            ({password, is_active, created_at, ...filteredNewAdminUser} = adminUser) => {
+            return filteredNewAdminUser
+        })
+
+        console.log(newAdminUser);
+        return newAdminUser;
+
     } catch (error){
-        console.error("Failed to create user:", error);
+        console.error("Failed to create user in repository:", error);
         throw error;
     }
-
 }
