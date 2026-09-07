@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getAllAdmins, getAdminById, registerAdmin, loginAdmin} from "./auth.controller.js";
+import { getAllAdmins, getAdminById, registerAdmin, loginAdmin} from "./auth.controller.ts";
 
 const route = Router();
 // route.get("/", getAllAdmins);
