@@ -11,7 +11,7 @@ function getProductById(req:Request, res:Response){
 
 function addProduct(req:Request, res:Response){
     const productDetails = req.body;
-    const addedProduct = validateProduct(productDetails, 11);
+    const addedProduct = validateProduct(productDetails);
     res.send("You added a new product");
 }
 

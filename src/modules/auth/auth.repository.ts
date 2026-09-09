@@ -10,9 +10,10 @@ export async function getAllAdmins(){
 export async function getAdminUserByUsername(username: string){
     try{
         const adminUser = await sql`
-            SELECT * FROM admin_users
+            SELECT * FROM users
             WHERE "username" = ${username}
         `
+        console.log(adminUser);
         return adminUser;
 
     } catch(error){
@@ -24,7 +25,7 @@ export async function getAdminUserByUsername(username: string){
 export async function createAdminRow(username: string, password: string, firstname: string, lastname: string){
     try{
         const adminUser = await sql`
-            INSERT INTO admin_users (username, password, first_name, last_name)
+            INSERT INTO users (username, password, first_name, last_name)
             VALUES (${username}, ${password}, ${firstname}, ${lastname})
             RETURNING *
         `

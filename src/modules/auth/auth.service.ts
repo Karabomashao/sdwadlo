@@ -8,16 +8,18 @@ import { generateToken } from "../../utils/jwt.ts";
 export async function validateLogin(username: string, password: string){
     
     try{
-        const existingAdminUser = await getAdminUserByUsername(username)
-        if (existingAdminUser.length != 0){
-            const passwordMatch = await bcrypt.compare(password, existingAdminUser[0].password);
+        const existingUser = await getAdminUserByUsername(username);
+        if (existingUser.length != 0){
+            const passwordMatch = await bcrypt.compare(password, existingUser[0].password);
             if (passwordMatch){
 
-                const payload = adminUserPayload(existingAdminUser[0])
+                const payload = adminUserPayload(existingUser[0])
                 const token = await generateToken(payload);
                 return {
-                    "token": token
-                }
+                    "token": token,
+                    "userId": existingUser[0].id,
+                    "username": existingUser[0].username
+                };
             } else{
                 console.log("Invalid credentials");
                 return null;

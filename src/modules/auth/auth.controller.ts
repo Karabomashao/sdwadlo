@@ -28,11 +28,11 @@ async function loginAdmin(req:Request, res:Response){
     const {username, password} = req.body;
 
     try{
-        const adminAuthenticated = await validateLogin(username, password);
-        if (adminAuthenticated){
+        const authenticatedUser = await validateLogin(username, password);
+        if (authenticatedUser){
             res.status(200).json({
             message: "You have successfully logged in.",
-            data: adminAuthenticated
+            authenticatedUser
         });
         }else{
             res.status(403).json({
@@ -41,7 +41,7 @@ async function loginAdmin(req:Request, res:Response){
         }
     }catch(error){
         console.error(error.message);
-        res.status(403).json({
+        res.status(500).json({
             message: error.message
         });
     }
