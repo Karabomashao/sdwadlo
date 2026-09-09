@@ -1,12 +1,13 @@
 import {type Request, type Response} from "express";
 import { createAdmin, validateLogin } from "../auth/auth.service.ts";
+import { generateToken } from "../../utils/jwt.ts";
 
 async function registerAdmin(req:Request, res:Response){
 
     try{
         const {username, password, firstname, lastname} = req.body;
         const adminUser = await createAdmin(username, password, firstname, lastname);
-        res.status(200).json({
+        res.status(201).json({
             adminUser
         });       
     } catch(error){
@@ -23,6 +24,7 @@ async function registerAdmin(req:Request, res:Response){
 }
 
 async function loginAdmin(req:Request, res:Response){
+
     const {username, password} = req.body;
 
     try{

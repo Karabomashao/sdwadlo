@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { validateProduct} from "./products.service.ts"
 
 function getProducts(req:Request, res:Response){
     res.send("You are viewing all the products");
@@ -10,12 +11,8 @@ function getProductById(req:Request, res:Response){
 
 function addProduct(req:Request, res:Response){
     const productDetails = req.body;
-    console.log(productDetails);
+    const addedProduct = validateProduct(productDetails, 11);
     res.send("You added a new product");
-}
-
-type word = {
-
 }
 
 export {

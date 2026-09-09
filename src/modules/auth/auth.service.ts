@@ -1,6 +1,8 @@
 import { getAllAdmins, createAdminRow, getAdminUserByUsername } from "./auth.repository.ts";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { adminUserPayload } from "../../utils/payload.ts";
+import { generateToken } from "../../utils/jwt.ts";
 
 
 export async function validateLogin(username: string, password: string){
@@ -10,8 +12,14 @@ export async function validateLogin(username: string, password: string){
         if (existingAdminUser.length != 0){
             const passwordMatch = await bcrypt.compare(password, existingAdminUser[0].password);
             if (passwordMatch){
-                return existingAdminUser[0]
+
+                const payload = adminUserPayload(existingAdminUser[0])
+                const token = await generateToken(payload);
+                return {
+                    "token": token
+                }
             } else{
+                console.log("Invalid credentials");
                 return null;
             }
         }else{
