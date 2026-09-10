@@ -6,9 +6,9 @@ import { validateToken } from "../../middleware/auth.middleware.ts";
 const route = Router();
 
 route.get("/", getProducts);
-route.patch("/admin/updateProductById/:id", updateProductById);
+route.patch("/admin/updateProductById/:id", validateToken, updateProductById);
 route.post("/admin/addProduct", validateToken, addProduct);
-route.delete("/admin/deleteById/:id", deleteProduct)
+route.delete("/admin/deleteById/:id", validateToken, deleteProduct)
 
 
 export default route;

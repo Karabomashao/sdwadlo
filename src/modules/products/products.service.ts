@@ -1,10 +1,16 @@
 import {addProduct, getProductById, updateProductById, deleteProductById } from "./products.repository.ts";
+import { getUserById } from "../auth/auth.repository";
 
-
-export async function validateProduct(productDetails: object){
+export async function validateProduct(productDetails: object, userId: number){
     try{
-        const product = await addProduct(productDetails);
-        return product;
+        const userExist = await getUserById(userId);
+        // console.log(userExist);
+        if (userExist.length === 0){
+            return false;
+        }else{
+            const product = await addProduct(productDetails, userId);
+            return product;
+        }
     }catch(error){
         console.error(error.message);
         return error.message;

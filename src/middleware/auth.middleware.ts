@@ -10,7 +10,8 @@ export function validateToken(req: Request, res: Response, next: NextFunction){
         const token = authorization.split(" ")[1]
         
         if (token){
-            const adminUser = jwt.verify(token, env.JWT_SECRET);
+            const decoded = jwt.verify(token, env.JWT_SECRET);
+            req.user = decoded
             next();
         }
 

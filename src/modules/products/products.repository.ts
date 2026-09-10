@@ -45,8 +45,8 @@ export async function updateProductById(productUpdates: Record<string, any>, pro
 
 }
 
-export async function addProduct(productDetails: object){
-    const {product, brand, price, colourId, sizeId, categoryId, genderId, userId, description} = productDetails;
+export async function addProduct(productDetails: object, userId: number){
+    const {product, brand, price, colourId, sizeId, categoryId, genderId, description} = productDetails;
 
     try{
         const productMeta = await sql`
@@ -74,7 +74,7 @@ export async function addProduct(productDetails: object){
             )
             RETURNING *
         `
-        console.log(productMeta);
+        // console.log(productMeta);
         return productMeta;
     }catch(error){
         console.error(error.message);

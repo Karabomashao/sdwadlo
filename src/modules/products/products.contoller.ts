@@ -13,6 +13,7 @@ async function updateProductById(req:Request, res:Response){
     try{
         const productId = req.params.id;
         const productUpdates = req.body;
+        const userId = req.user
         const response = await validateProductUpdate(productUpdates, productId);
         if ( response ){
             res.status(200).json({
@@ -33,11 +34,20 @@ async function updateProductById(req:Request, res:Response){
 
 
 
-function addProduct(req:Request, res:Response){
+async function addProduct(req:Request, res:Response){
     const productDetails = req.body;
-    console.log("You really pass here?")
-    const addedProduct = validateProduct(productDetails);
-    res.send("You added a new product");
+    const userId = Number(req.user.id);
+    const addedProduct = await validateProduct(productDetails, userId);
+    console.log(userId);
+    if (addedProduct){
+        res.status(201).json({
+            addedProduct
+        })
+    }else{
+        res.status(404).json({
+            "message": "User not found"
+        });
+    }
 }
 
 async function deleteProduct(req: Request, res: Response){

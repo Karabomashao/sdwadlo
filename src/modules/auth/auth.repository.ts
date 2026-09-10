@@ -22,6 +22,21 @@ export async function getAdminUserByUsername(username: string){
     }
 }
 
+export async function getUserById(id: Number){
+    try{
+        const adminUser = await sql`
+            SELECT * FROM users
+            WHERE "id" = ${id}
+        `
+        // console.log(adminUser);
+        return adminUser;
+
+    } catch(error){
+        console.error(error);
+        throw error;
+    }
+}
+
 export async function createAdminRow(username: string, password: string, firstname: string, lastname: string){
     try{
         const adminUser = await sql`
