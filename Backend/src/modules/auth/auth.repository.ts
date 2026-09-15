@@ -13,7 +13,6 @@ export async function getAdminUserByUsername(username: string){
             SELECT * FROM users
             WHERE "username" = ${username}
         `
-        console.log(adminUser);
         return adminUser;
 
     } catch(error){
@@ -22,7 +21,7 @@ export async function getAdminUserByUsername(username: string){
     }
 }
 
-export async function getUserById(id: Number){
+export async function getUserById(id: number){
     try{
         const adminUser = await sql`
             SELECT * FROM users

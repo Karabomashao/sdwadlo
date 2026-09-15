@@ -5,7 +5,7 @@ import productRouter from "./modules/products/products.routes.js";
 import { connectDB } from "./config/database.ts";
 
 
-app.use("/api/admin", adminRouter);
+app.use("/api/v1/auth", adminRouter);
 app.use("/api/product", productRouter);
 
 
