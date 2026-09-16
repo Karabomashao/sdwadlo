@@ -1,111 +1,321 @@
-:root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,300;1,6..96,400;1,6..96,300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&display=swap');
+@import 'tailwindcss';
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
+@theme {
+  --color-ivory: #F3F1EC;
+  --color-pitch: #0D0D0D;
+  --font-display: 'Bodoni Moda', Georgia, serif;
+  --font-label: 'Montserrat', sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
-}
-
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
+*, *::before, *::after {
   box-sizing: border-box;
 }
 
+html, body, #root {
+  height: 100%;
+  background-color: #F3F1EC;
+  color: #0D0D0D;
+}
+
+/* #F3F1EC; */
 body {
+  font-family: 'Bodoni Moda', Georgia, serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Hide scrollbars until scroll */
+* {
+  scrollbar-width: none;
+}
+*:hover {
+  scrollbar-width: thin;
+}
+
+/* Underline-only inputs */
+.field-line {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #0D0D0D;
+  border-radius: 0;
+  outline: none;
+  width: 100%;
+  font-family: 'Bodoni Moda', Georgia, serif;
+  font-size: 0.875rem;
+  color: #0D0D0D;
+  padding: 0.5rem 0;
+  letter-spacing: 0.04em;
+}
+
+.field-line::placeholder {
+  color: #0D0D0D;
+  opacity: 0.5;
+  font-style: italic;
+}
+
+.field-line:focus {
+  border-bottom-color: #0D0D0D;
+  border-bottom-width: 2px;
+}
+
+.label-caps {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 400;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #0D0D0D;
+}
+
+.label-caps-light {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 300;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #F3F1EC;
+}
+
+.login-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(400px, 0.65fr);
+  min-height: 100%;
+  background: #F3F1EC;
+}
+
+.login-image-panel {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background: #292522;
+}
+
+.login-image-panel::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(13, 13, 13, 0.02), rgba(13, 13, 13, 0.4));
+  content: '';
+}
+
+.login-image-panel img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+  animation: image-arrival 900ms ease-out both;
+}
+
+.image-caption {
+  position: absolute;
+  z-index: 1;
+  right: 32px;
+  bottom: 28px;
+  left: 32px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.image-caption-rule {
+  height: 1px;
+  flex: 1;
+  background: rgba(243, 241, 236, 0.6);
+}
+
+.login-panel {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  padding: 32px clamp(28px, 4.5vw, 72px) 24px;
+  background: #F5F4F2;
+}
+
+.login-header,
+.login-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand-mark {
+  font-family: 'Bodoni Moda', Georgia, serif;
+  font-size: 1.2rem;
+  letter-spacing: 0.02em;
+}
+
+.login-index,
+.login-footer .label-caps {
+  color: rgba(13, 13, 13, 0.45);
+}
+
+.login-content {
+  width: min(100%, 380px);
+  margin: auto 0;
+  padding: 46px 0;
+}
+
+.login-eyebrow {
+  margin-bottom: 16px;
+  color: rgba(13, 13, 13, 0.55);
+}
+
+.login-content h1 {
   margin: 0;
+  color: #0D0D0D;
+  font-family: 'Bodoni Moda', Georgia, serif;
+  font-size: clamp(2.8rem, 4vw, 4.2rem);
+  font-weight: 300;
+  line-height: 0.98;
 }
 
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+.login-content h1 span {
+  color: #9C5138;
 }
 
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
+.login-intro {
+  max-width: 280px;
+  margin: 20px 0 38px;
+  color: rgba(13, 13, 13, 0.62);
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.login-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.login-panel .label-caps {
+  font-size: 0.7rem;
+}
+
+.login-panel .field-line {
+  font-size: 1rem;
+  padding: 0.6rem 0;
+}
+
+.login-error {
+  margin: -8px 0 0;
+  color: #9C5138;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+
+.login-submit {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding: 16px 18px;
+  border: 1px solid #0D0D0D;
+  background: #0D0D0D;
+  color: #F3F1EC;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transition: background 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.login-submit:hover:not(:disabled) {
+  background: transparent;
+  color: #0D0D0D;
+  transform: translateY(-2px);
+}
+
+.login-submit:focus-visible {
+  outline: 2px solid #9C5138;
+  outline-offset: 4px;
+}
+
+.login-submit:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+
+.login-footer {
+  padding-top: 18px;
+  border-top: 1px solid rgba(13, 13, 13, 0.16);
+}
+
+.login-footer .label-caps {
+  font-size: 0.52rem;
+  letter-spacing: 0.15em;
+}
+
+@keyframes image-arrival {
+  from { opacity: 0; transform: scale(1.03); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@media (max-width: 800px) {
+  .login-shell {
+    display: block;
+  }
+
+  .login-image-panel {
+    height: 24vh;
+    min-height: 150px;
+    max-height: 220px;
+  }
+
+  .login-panel {
+    min-height: 76vh;
+    padding: 22px 22px 18px;
+  }
+
+  .login-content {
+    width: 100%;
+    padding: 30px 0;
+  }
+
+  .login-content h1 {
+    font-size: clamp(2.4rem, 11vw, 3.3rem);
+  }
+
+  .login-intro {
+    margin: 14px 0 28px;
+    font-size: 0.88rem;
+  }
+
+  .login-form {
+    gap: 18px;
   }
 }
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
+
+@media (max-width: 800px) and (max-height: 700px) {
+  .login-image-panel {
+    height: 20vh;
+    min-height: 120px;
+  }
+
+  .login-content {
+    padding: 20px 0;
+  }
+
+  .login-eyebrow {
+    margin-bottom: 10px;
+  }
+
+  .login-intro {
+    margin-bottom: 20px;
   }
 }
-p {
-  margin: 0;
-}
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
-}
-
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+/* File input reset */
+input[type="file"] {
+  display: none;
 }
