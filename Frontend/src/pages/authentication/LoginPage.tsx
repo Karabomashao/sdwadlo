@@ -18,6 +18,8 @@ export default function LoginPage(){
     password: ''
     });
 
+    const [error, setError] = useState("");
+
     function handleOnChange(e: React.ChangeEvent<HTMLInputElement>){
         const { name, value } = e.target;
         setLoginForm({
@@ -38,7 +40,7 @@ export default function LoginPage(){
         })
 
         if (!response.ok){
-            console.log("Invalid Credentials!");
+            setError("Invalid credentials");
         }else{
             const data = await response.json();
             const userData = data.authenticatedUser;
@@ -51,7 +53,69 @@ export default function LoginPage(){
 
     return(
         <>
-            <div className="relative h-screen w-full overflow-hidden" style={{ backgroundColor: '#F3F1EC' }}>
+            {/* <div> */}
+
+                <div className="flex flex-col h-screen justify-center items-center">
+
+                    <div className='border-4 rounded-xl p-10 border-gray-400 '>
+
+                        <div className=' mb-10'>
+                            <h1>Sdwadlo</h1>
+                        </div>
+
+                        <form onSubmit={handleSubmit}>    
+                            <div className='mb-4'>
+                                <label className='flex flex-col mb-4'>Email</label>
+                                <input 
+                                    className='mb-4 border p-4'
+                                    type="email"
+                                    name="username"
+                                    placeholder='your@email,com'
+                                    value={login.username}
+                                    onChange={handleOnChange}
+                                    required 
+                                />
+                                <label className='flex flex-col mb-4'>Password</label>
+                                <input
+                                    className='mb-4 border p-4'
+                                    type="password"
+                                    name="password"
+                                    placeholder='••••••••'
+                                    value={login.password}
+                                    onChange={handleOnChange}
+                                    required 
+                                />
+
+
+                                <div className='m-4'>
+                                    <button
+                                        type="submit"
+                                        className="label-caps"
+                                        style={{
+                                            background: '#0D0D0D',
+                                            color: '#F3F1EC',
+                                            border: 'none',
+                                            padding: '1rem 2.5rem',
+                                            cursor: 'pointer',
+                                            letterSpacing: '0.3em',
+                                            transition: 'opacity 0.2s',
+                                        }}
+                                        onMouseEnter={e => (e.currentTarget.style.opacity = '0.75')}
+                                        onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+                                    >
+                                        Enter
+                                    </button>
+                                </div>
+
+                                {error && (
+                                    <p className='text-red-500 break words'>
+                                        {error}
+                                    </p>
+                                )}
+                            </div>
+                        </form>
+                    </div>
+                </div>
 
                 {/* <div className="absolute inset-y-0 left-0 w-[62%]">
                     <img src="/cover.png" alt="Editorial fashion" className="w-full h-full object-cover" />
@@ -79,56 +143,10 @@ export default function LoginPage(){
                         >
                             Sign in
                         </h1> */}
-                        <form onSubmit={handleSubmit} className="flex flex-col gap-8">    
-                            <div className="flex flex-col gap-1">
-                                <label className='label-caps'>Email</label>
-                                    <input 
-                                        className="field-line"
-                                        type="email"
-                                        name="username"
-                                        placeholder='your@email,com'
-                                        value={login.username}
-                                        onChange={handleOnChange}
-                                        required 
-                                    />
-                            </div>
-    
-                            <div className="flex flex-col gap-1">
-                                <label className='label-caps'>Password</label>
-                                <input
-                                    className="field-line" 
-                                    type="password"
-                                    name="password"
-                                    placeholder='••••••••'
-                                    value={login.password}
-                                    onChange={handleOnChange}
-                                    required 
-                                />
-                            </div>
-                            
-                            <div className="pt-8">
-                                <button
-                                    type="submit"
-                                    className="label-caps"
-                                    style={{
-                                        background: '#0D0D0D',
-                                        color: '#F3F1EC',
-                                        border: 'none',
-                                        padding: '1rem 2.5rem',
-                                        cursor: 'pointer',
-                                        letterSpacing: '0.3em',
-                                        transition: 'opacity 0.2s',
-                                    }}
-                                    onMouseEnter={e => (e.currentTarget.style.opacity = '0.75')}
-                                    onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
-                                >
-                                    Enter
-                                </button>
-                            </div>
-                        </form>
+                        
                     {/* </div>
                 </div>                 */}
-            </div>
+            {/* </div> */}
         </>
     )
 }
