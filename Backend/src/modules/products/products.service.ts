@@ -1,4 +1,4 @@
-import {addProduct, getProductById, updateProductById, deleteProductById } from "./products.repository.ts";
+import {addProduct, getProductById, updateProductById, deleteProductById, addProductColour, addProductSize } from "./products.repository.ts";
 import { getUserById } from "../auth/auth.repository";
 
 export async function validateProduct(productDetails: object, userId: number){
@@ -8,7 +8,26 @@ export async function validateProduct(productDetails: object, userId: number){
         if (userExist.length === 0){
             return false;
         }else{
+
             const product = await addProduct(productDetails, userId);
+            const productId = product[0].id
+      
+            const {colours, sizes} = productDetails;
+
+            const colourRows = colours.map((colourId) => ({
+                product_id: productId,
+                colour_id: colourId
+            }))
+
+
+            const sizeRows = sizes.map((sizeId) => ({
+                size_id: sizeId,
+                product_id: productId
+            }))
+
+            const colour = await addProductColour(colourRows);
+            const size = await addProductSize(sizeRows);
+
             return product;
         }
     }catch(error){

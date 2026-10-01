@@ -6,7 +6,7 @@ import { connectDB } from "./config/database.ts";
 
 
 app.use("/api/v1/auth", adminRouter);
-app.use("/api/product", productRouter);
+app.use("/api/v1/product", productRouter);
 
 
 

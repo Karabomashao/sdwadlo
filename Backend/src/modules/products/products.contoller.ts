@@ -38,7 +38,6 @@ async function addProduct(req:Request, res:Response){
     const productDetails = req.body;
     const userId = Number(req.user.id);
     const addedProduct = await validateProduct(productDetails, userId);
-    console.log(userId);
     if (addedProduct){
         res.status(201).json({
             addedProduct

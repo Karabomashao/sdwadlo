@@ -7,7 +7,7 @@ const route = Router();
 
 route.get("/", getProducts);
 route.patch("/admin/updateProductById/:id", validateToken, updateProductById);
-route.post("/admin/addProduct", validateToken, addProduct);
+route.post("/addProduct", validateToken, addProduct);
 route.delete("/admin/deleteById/:id", validateToken, deleteProduct)
 
 
