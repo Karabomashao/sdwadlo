@@ -8,6 +8,7 @@ export default function AdminProtectedRoute(){
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
 
+    //get user from superbase
     useEffect(() => {
         async function getUser(){
             const {data, error} = await superbase.auth.getUser();
@@ -16,7 +17,6 @@ export default function AdminProtectedRoute(){
                 setLoading(false);
                 return
             }else{
-                console.log(user);
                 setUser(data.user);
                 setLoading(false);
             }
@@ -32,7 +32,6 @@ export default function AdminProtectedRoute(){
             </div>
         );  
     }
-
 
     if (!user){
         return <Navigate to="/login" replace />;
