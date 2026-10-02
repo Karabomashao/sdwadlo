@@ -4,7 +4,7 @@ export default function AdminProtectedRoute(){
 
 
     if (!localStorage.getItem("token")){
-        console.log("No toekn");
+        console.log("No token");
         return <Navigate to='/login' replace/>
     }
 

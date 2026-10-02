@@ -21,7 +21,9 @@ function App() {
   const router = createBrowserRouter(createRoutesFromElements(
     <>
       {/* public route */}
+
       <Route path='/login' element={<LoginPage/>}/>
+      <Route path='/' element={<AdminDashboard/>}/>
 
       {/* Admin */}
       <Route element={<AdminProtectedRoute/>}>
