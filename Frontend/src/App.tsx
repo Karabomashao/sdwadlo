@@ -15,6 +15,7 @@ import Analytics from './pages/admin/Analytics';
 import Marketing from './pages/admin/Marketing';
 import AdminSettings from './pages/admin/AdminSettings';
 import SideNav from './components/SideNav';
+import SignUpPage from './pages/authentication/SignUp';
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
 
       <Route path='/login' element={<LoginPage/>}/>
       <Route path='/' element={<AdminDashboard/>}/>
+      <Route path='/signup' element={<SignUpPage/>}/>
 
       {/* Admin */}
       <Route element={<AdminProtectedRoute/>}>
