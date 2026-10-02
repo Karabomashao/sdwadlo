@@ -60,13 +60,10 @@ export default function SignUpPage() {
             return;
         }
         setPassword("");
-        e.preventDefault();
         const result = await superbaseSignUp()
         console.log(result);
         navigate("/admin/products");
     }
-
-
 
   return (
     <div className="min-h-screen w-full bg-[#F7F4ED]">

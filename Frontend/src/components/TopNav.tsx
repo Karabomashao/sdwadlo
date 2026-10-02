@@ -1,11 +1,24 @@
 import { ChevronDown } from "lucide-react"
-import { useState } from "react"
-
+import React, { useState } from "react"
+import { superbase } from "../lib/supabase";
+import { useNavigate } from "react-router-dom";
 export default function TopNav(){
 
     const [isCollapsed, setIsCollapse] = useState(false);
 
     
+    const navigate = useNavigate();
+    async function superbaseLogout(){
+        const { error } = await superbase.auth.signOut({scope: 'local'});
+        if (error){
+            console.log(error);
+        }
+    }
+
+    async function handleLogout(){
+        await superbaseLogout();
+        navigate("/login");
+    }
 
     return(
         <>
@@ -17,12 +30,10 @@ export default function TopNav(){
                 </div>
 
                 {/* Profile section */}
-                <button className="flex">
+                <button className="flex" onClick={handleLogout}>
                     <div className="flex flex-col">
-                        <span>Admin</span>
-                        <span>Administrator</span>
+                        <span>Logout</span>
                     </div>
-                        <span><ChevronDown/></span>
                 </button>
         </header>
         </>
