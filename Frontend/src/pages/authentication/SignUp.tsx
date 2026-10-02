@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { Eye, EyeOff, Mail, Lock, User } from "lucide-react";
 import { Link } from "react-router-dom";
 import { superbase } from "../../lib/supabase";
+import { useNavigate } from "react-router-dom";
 
 export default function SignUpPage() {
 
 
+    const navigate = useNavigate();
     const [name, setName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
@@ -24,16 +26,19 @@ export default function SignUpPage() {
     }
 
 
-    //sign up using supeerbase SDK
+    //sign up using supeerbase SDK (superbase client)
     async function superbaseSignUp(){
         
         const {data, error} = await superbase.auth.signUp({
             email,
             password,
             options: {
+                emailRedirectTo: "http://localhost:5173/admin/",
                 data:{
                     name,
-                    lastName
+                    lastName,
+                    role: "STORE_ADMIN",
+                    
                 }
             }
         })
@@ -47,19 +52,18 @@ export default function SignUpPage() {
     }
 
     // Handle form submit
-    function handleSubmit(e: React.ChangeEvent<HTMLFormElement>){
+    async function handleSubmit(e: React.ChangeEvent<HTMLFormElement>){
         
+        e.preventDefault();
         if (password !== confirmPassword){
             setPasswordError("Passwords do not match");
             return;
         }
-
         setPassword("");
-
         e.preventDefault();
-        const result = superbaseSignUp()
+        const result = await superbaseSignUp()
         console.log(result);
-
+        navigate("/admin/products");
     }
 
 
@@ -274,8 +278,9 @@ export default function SignUpPage() {
                     name="confirmPassword"
                     placeholder="Confirm your password"
                     required
-                    className={`border rounded-md px-3 py-2 ${
+                    className={`w-full bg-transparent text-sm outline-none ${
                         password
+                        
                         ? "border-red-500"
                         : "border-gray-300"
                     }`}
@@ -283,11 +288,7 @@ export default function SignUpPage() {
                     onChange={(e) => handleChange(e, setConfrimPassword)}
                   />
 
-                {passwordError && (
-                    <span className="text-red-500 text-sm">
-                    {passwordError}
-                </span>
-        )}
+
 
 
                   <button
@@ -305,7 +306,13 @@ export default function SignUpPage() {
                     )}
                   </button>
                 </div>
+                {passwordError && (
+                    <span className="text-red-500 text-sm flex justify-center py-2">
+                    {passwordError}
+                </span>
+                )}
               </div>
+
 
               {/* Terms */}
               <label className="flex items-start gap-3 text-sm text-[#77766F]">
