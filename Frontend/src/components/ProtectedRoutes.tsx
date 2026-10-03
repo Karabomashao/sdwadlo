@@ -2,8 +2,14 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { superbase } from "../lib/supabase";
 import type { User } from "@supabase/supabase-js";
+import Unauthorized from "./Unauthorized";
 
-export default function AdminProtectedRoute(){
+
+type ProptectedRoutes = {
+    allowedRoles: string[]
+};
+
+export default function ProtectedRoutes({allowedRoles}: ProptectedRoutes){
 
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
@@ -19,6 +25,7 @@ export default function AdminProtectedRoute(){
             }else{
                 setUser(data.user);
                 setLoading(false);
+                // console.log(data.user.user_metadata.role);
             }
 
         }
@@ -37,5 +44,10 @@ export default function AdminProtectedRoute(){
         return <Navigate to="/login" replace />;
     }
 
-    return <Outlet/>;
+    return (
+        allowedRoles.includes(user.user_metadata.role)
+        ? <Outlet/>
+        : <Unauthorized/>
+    )
+    
 }

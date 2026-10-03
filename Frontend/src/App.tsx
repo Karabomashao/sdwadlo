@@ -7,7 +7,7 @@ import {
 // import './App.css';
 import LoginPage from './pages/authentication/LoginPage';
 import AdminDashboard from './pages/admin/AdminDashboard';
-import AdminProtectedRoute from './components/AdminProtectedRoute';
+import ProtectedRoutes from './components/ProtectedRoutes';
 import Products from './pages/admin/Products';
 import Orders from './pages/admin/Orders';
 import Customers from './pages/admin/Customers';
@@ -28,7 +28,7 @@ function App() {
       <Route path='/signup' element={<SignUpPage/>}/>
 
       {/* Admin */}
-      <Route element={<AdminProtectedRoute/>}>
+      <Route element={<ProtectedRoutes allowedRoles={['STORE_ADMIN']}/>}>
         <Route path='/admin' element={<SideNav/>}>
           <Route path='dashboard' element={<AdminDashboard/>}/>
           <Route path='products' element={<Products/>}/>
