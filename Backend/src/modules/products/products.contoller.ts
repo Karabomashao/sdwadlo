@@ -36,17 +36,18 @@ async function updateProductById(req:Request, res:Response){
 
 async function addProduct(req:Request, res:Response){
     const productDetails = req.body;
-    const userId = Number(req.user.id);
+    const userId = req.user?.id
+    console.log(productDetails);
     const addedProduct = await validateProduct(productDetails, userId);
-    if (addedProduct){
-        res.status(201).json({
-            addedProduct
-        })
-    }else{
-        res.status(404).json({
-            "message": "User not found"
-        });
-    }
+    // if (addedProduct){
+    //     res.status(201).json({
+    //         addedProduct
+    //     })
+    // }else{
+    //     res.status(404).json({
+    //         "message": "User not found"
+    //     });
+    // }
 }
 
 async function deleteProduct(req: Request, res: Response){

@@ -6,5 +6,7 @@ const results = dotenv.config();
 export const env = {
     PORT: Number(process.env.PORT) || 3000,
     DB_CONNECTION_STRING: process.env.DB_CONNECTION_STRING,
-    JWT_SECRET: process.env.JWT_SECRET
+    JWT_SECRET: process.env.JWT_SECRET,
+    VITE_SUPABASE_URL: process.env.VITE_SUPABASE_URL,
+    VITE_SUPABASE_PUBLISHABLE_KEY: process.env.VITE_SUPABASE_PUBLISHABLE_KEY
 }

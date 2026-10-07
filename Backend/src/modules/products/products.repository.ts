@@ -70,7 +70,7 @@ export async function addProductSize(sizeRows){
     }
 }
 
-export async function addProduct(productDetails: object, userId: number){
+export async function addProduct(productDetails: object, userId: string){
     const {productName, brand, price, category, description, colours, sizes} = productDetails;
 
     try{
@@ -121,6 +121,26 @@ export async function addProduct(productDetails: object, userId: number){
     }catch(error){
         console.error(error.message);
         return error;
+    }
+}
+
+export async function addFilePath(path: string, productId: string){
+    try{
+        const images = await sql`
+        INSERT INTO images(
+            product_id,
+            filepath
+        )
+        VALUES(
+            ${productId},
+            ${path}
+        )
+        RETURNING *
+    `
+
+    console.log("File was successfuly uploaded!");
+    }catch(error){
+        console.log(error);
     }
 }
 
