@@ -25,9 +25,7 @@ export default function ProtectedRoutes({allowedRoles}: ProptectedRoutes){
             }else{
                 setUser(data.user);
                 setLoading(false);
-                // console.log(data.user.user_metadata.role);
             }
-
         }
         getUser();
     }, [])

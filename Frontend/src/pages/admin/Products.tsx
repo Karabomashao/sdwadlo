@@ -1,22 +1,52 @@
-import React, { useState } from "react";
-import { DoorOpenIcon, ChevronDown, BoxSelect, TextSelect } from "lucide-react";
+import React, { use, useEffect, useState } from "react";
+// import { DoorOpenIcon, ChevronDown, BoxSelect, TextSelect } from "lucide-react";
 import { allColours, allSizes } from "../../utils/productData";
 import { superbase } from "../../lib/supabase";
 
+
 export default function Products(){
 
+
+    const [accessToken, setAccessToken] = useState<String | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [mesage, setMessage] = useState("");
+    const [uploadedImage, setUploadedImage] = useState(false);
+    const [imageURL, setImageURL] = useState("");
+
+    // form data
     const [product, setProduct] = useState({
         productName: "",
         category: "",
         price: "",
         description:"",
         brand: "",
+        filepath: "",
         sizes: [] as Number[],
         colours: [] as Number[]
     });
 
+    // image data
     const [image, setImage] = useState<File | null>(null);
 
+     useEffect(() => {
+            
+            async function getSession(){
+                const {data, error} = await superbase.auth.getSession()
+                if (error){
+                    setMessage("Session expired")
+                    setLoading(false);
+                    return;
+                }
+                setAccessToken(data.session?.access_token ?? null);
+                await uploadImage();
+                setUploadedImage(true);
+                setLoading(false);
+            }
+            getSession();
+        }, [])
+
+
+    // Validate at least one colour or size is selected
     function validateArrayLength(arr: Object[]){
         
         if (arr.length === 0){
@@ -26,9 +56,7 @@ export default function Products(){
         return false;
     }
 
-    const [selectedColour, setSelectedColour] = useState<string>()
-
-
+    //handle uploading an image
     function handleUploadImage(event: React.ChangeEvent<HTMLInputElement>){
         const file = event.target.files?.[0];
         console.log(file);
@@ -93,10 +121,12 @@ export default function Products(){
 
         if (error){
             console.log(error);
+            setMessage("Photo couldn't be uploaded");
             return;
         }
-
-        console.log(data)
+        setImageURL(data.fullPath);
+        console.log(imageURL);
+        
     }
 
     async function handleSubmit(e: React.ChangeEvent<HTMLFormElement>){
@@ -107,24 +137,35 @@ export default function Products(){
             return
         }
 
-        const data = JSON.parse(localStorage.getItem("data") ?? "null")
-        const response = await fetch(`http://localhost:3000/api/v1/product/addProduct`, {
+        if (loading){
+            return (
+                <div className="flex min-h-screen items-center justify-center">
+                    <div className="h-8 w-8 animate-spin rounded-full border-4 border-gray-300 border-t-[#5F6248]" />
+                </div>
+            );  
+        }
+
+        if(uploadedImage){
             
-            method: 'Post',
-            headers: {
-                "content-type": "application/json",
-                "authorization": `Bearer ${data.token}`
-            },
-            body: JSON.stringify(product)
-        })
+            product.filepath = imageURL;
+            const response = await fetch(`http://localhost:3000/api/v1/product/addProduct`, {
+                
+                method: 'Post',
+                headers: {
+                    "content-type": "application/json",
+                    "authorization": `Bearer ${accessToken}`
+                },
+                body: JSON.stringify(product)
+            })
+        }
+        
+
+
         
         // const data = await response.json();
         // console.log(data);
 
     }
-
-
-
 
     return(
         <>
@@ -196,6 +237,11 @@ export default function Products(){
                                         onChange={handleOnChange}
                                         />
                                 </div>
+
+                                {/* <div>
+                                </div> */}
+                                
+
                                 
                                 <div className="flex flex-col">
                                     <label className="font-medium text-sm">Brand<span className="text-red-500">*</span></label>
@@ -311,12 +357,10 @@ export default function Products(){
 
                                     <div className="flex gap-2">
 
-                                    <button onClick={uploadImage} className="w-30 h-8 border rounded-md border-[#5F6248] text-sm">
-                                        Save Product
-                                    </button>
+                       
 
-                                    <button className="bg-[#5F6248] w-30 h-8 rounded-md text-white">
-                                        Publish
+                                    <button onClick={uploadImage} className="bg-[#5F6248] w-30 h-8 rounded-md text-white">
+                                        Save Product
                                     </button>
                                     </div>
                                 </div>
