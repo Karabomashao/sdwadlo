@@ -156,7 +156,28 @@ export async function deleteProductById(id: number){
     }catch(error){
         return error;
     }
+}
 
+export async function getProduct(){
+
+    try{
+        const result = await sql`         
+            SELECT
+                p.*,
+                c.category,
+                i.filepath
+            FROM products AS p
+            LEFT JOIN categories as c
+                ON p.category_id = c.id
+            LEFT JOIN images AS i
+                ON p.id = i.product_id 
+            WHERE admin_id = '78c02312-516d-477c-9c46-d03e5fb47969'
+        `
+        console.log(result);
+        return result;
+    }catch(error){
+        console.log(error);
+    }
 }
 
 

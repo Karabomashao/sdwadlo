@@ -4,8 +4,7 @@ import postgres from "postgres";
 import { env } from "../config/environment.js";
 
 
-const connectionString = process.env.DB_CONNECTION_STRING;
-const sql = await postgres(connectionString);
+const sql = await postgres(env.DB_CONNECTION_STRING);
 
 export async function connectDB(){
     try{

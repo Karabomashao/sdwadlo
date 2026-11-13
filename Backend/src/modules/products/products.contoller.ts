@@ -1,7 +1,7 @@
 import { validateProductUpdate } from "./products.service.ts";
 
 import { Request, Response } from "express";
-import { validateProduct, validateDeleteProduct} from "./products.service.ts"
+import { validateProduct, validateDeleteProduct, productsByUserId} from "./products.service.ts"
 import { deleteProductById } from "./products.repository.ts"
 
 function getProducts(req:Request, res:Response){
@@ -65,10 +65,19 @@ async function deleteProduct(req: Request, res: Response){
     }
 }
 
+async function getAllProducts(req: Request, res:Response) {
+    const data = await productsByUserId();
+    res.status(200).json({
+        message: data
+    })
+    console.log("fetching product")
+}
+
 
 export {
     getProducts,
     updateProductById,
     addProduct,
-    deleteProduct
+    deleteProduct,
+    getAllProducts
 }

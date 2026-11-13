@@ -1,4 +1,4 @@
-import {addProduct, getProductById, updateProductById, deleteProductById, addProductColour, addProductSize, addFilePath } from "./products.repository.ts";
+import {addProduct, getProductById, updateProductById, deleteProductById, addProductColour, addProductSize, addFilePath, getProduct } from "./products.repository.ts";
 import { getUserById } from "../auth/auth.repository";
 import { UUID } from "node:crypto";
 
@@ -23,6 +23,8 @@ export async function validateProduct(productDetails: object, userId: string){
             const colour = await addProductColour(colourRows);
             const size = await addProductSize(sizeRows);
             const filePath = await addFilePath(filepath, productId);
+            console.log(filePath);
+
 
             return product;
     }catch(error){
@@ -61,5 +63,12 @@ export async function validateDeleteProduct(id: number){
     }
 }
 
-
+export async function productsByUserId(){
+    try{
+        const products = await getProduct();
+        return products;
+    }catch(error){
+        console.log(error)
+    }
+}
 
