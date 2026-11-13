@@ -16,6 +16,7 @@ import Marketing from './pages/admin/Marketing';
 import AdminSettings from './pages/admin/AdminSettings';
 import SideNav from './components/SideNav';
 import SignUpPage from './pages/authentication/SignUp';
+import AllProducts from './pages/admin/AllProducts';
 
 function App() {
 
@@ -31,7 +32,10 @@ function App() {
       <Route element={<ProtectedRoutes allowedRoles={['STORE_ADMIN']}/>}>
         <Route path='/admin' element={<SideNav/>}>
           <Route path='dashboard' element={<AdminDashboard/>}/>
-          <Route path='products' element={<Products/>}/>
+          <Route path='products'> 
+            <Route index element={<AllProducts/>}/>
+            <Route path='add_products' element={<Products/>}/>
+          </Route>
           <Route path='orders' element={<Orders/>}/>
           <Route path='customers' element={<Customers/>}/>
           <Route path='analytics' element={<Analytics/>}/>
